@@ -69,7 +69,7 @@ const FooterSection = () => {
             ))}
           </div>
           <span className="font-body text-xs text-muted-foreground">
-            Built with ❤️ on Polygon
+            Built with ❤️ by Team Creo
           </span>
         </div>
       </div>
