@@ -16,7 +16,7 @@ const headlines = [
   {
     top: "The On-Chain",
     highlight: "Marketplace",
-    connector: "for Creator",
+    connector: "for Creators",
     accent: "Revenue",
   },
   // {
