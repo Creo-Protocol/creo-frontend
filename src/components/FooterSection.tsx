@@ -8,7 +8,7 @@ const footerLinks = {
 };
 
 const socials = [
-  { label: "X",  href: "https://x.com/creoprotocol.xyz" },
+  { label: "X",  href: "https://x.com/CreoProtocol" },
   { label: "Discord",  href: "https://discord.gg/creoprotocol" },
   { label: "GitHub",   href: "https://github.com/Creo-Protocol" },
   { label: "YouTube",  href: "https://youtube.com/@CreoProtocol" },
