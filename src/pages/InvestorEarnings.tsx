@@ -18,7 +18,7 @@ const InvestorEarnings = () => {
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar type="investor" />
 
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-16 lg:pt-0">
         <div className="p-6 lg:p-8 max-w-5xl">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>

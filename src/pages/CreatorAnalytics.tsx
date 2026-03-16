@@ -25,8 +25,8 @@ const CreatorAnalytics = () => {
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar type="creator" />
 
-      <main className="flex-1 pt-16">
-        <div className="p-6 lg:p-8 max-w-6xl">
+      <main className="flex-1 pt-16 lg:pt-0">
+        <div className="p-6 lg:p-8 max-w-6xl mx-auto">
           <h1 className="font-display text-3xl font-bold text-foreground mb-2">Analytics</h1>
           <p className="font-body text-muted-foreground mb-8">Your earnings performance and reputation.</p>
 

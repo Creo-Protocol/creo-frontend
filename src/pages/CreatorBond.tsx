@@ -12,8 +12,8 @@ const CreatorBond = () => {
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar type="creator" />
 
-      <main className="flex-1 pt-16">
-        <div className="p-6 lg:p-8 max-w-4xl">
+      <main className="flex-1 pt-16 lg:pt-0">
+        <div className="p-6 lg:p-8 max-w-4xl mx-auto">
           <h1 className="font-display text-3xl font-bold text-foreground mb-2">Commitment Bond</h1>
           <p className="font-body text-muted-foreground mb-8">
             Your commitment bond shows investors you're serious. Earn it back with a bonus on completion.
