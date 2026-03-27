@@ -241,24 +241,22 @@ const HeroSection = () => {
           ) : (
             <form
               onSubmit={handleWaitlistSubmit}
-              className="flex w-full flex-col gap-3 sm:flex-row"
+              className="flex w-full items-center rounded-full border border-border bg-muted p-1.5 pl-5"
             >
-              <div className="flex flex-1 items-center rounded-lg border border-border bg-muted px-4 py-3">
-                <Mail className="mr-2 h-4 w-4 flex-shrink-0 text-muted-foreground" />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email..."
-                  className="bg-transparent font-body text-sm text-foreground placeholder:text-muted-foreground outline-none w-full"
-                />
-              </div>
+              <Mail className="mr-3 h-4 w-4 flex-shrink-0 text-muted-foreground" />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="flex-1 bg-transparent font-body text-sm text-foreground placeholder:text-muted-foreground outline-none min-w-0"
+              />
               <Button
                 type="submit"
-                size="lg"
+                size="sm"
                 disabled={loading}
-                className="bg-gradient-hero px-6 py-3 font-display text-base font-semibold text-primary-foreground shadow-glow-pink hover:opacity-90 disabled:opacity-60"
+                className="ml-2 rounded-full bg-gradient-hero px-5 py-2 font-display text-sm font-semibold text-primary-foreground shadow-glow-pink hover:opacity-90 disabled:opacity-60 flex-shrink-0"
               >
                 {loading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
