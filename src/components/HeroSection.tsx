@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroCreator from "@/assets/hero-creator.png";
 import heroInvestor from "@/assets/hero-investor.png";
@@ -87,6 +87,29 @@ function AnimatedStat({ value, inView }: { value: string; inView: boolean }) {
 const HeroSection = () => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) throw new Error("Something went wrong. Please try again.");
+      setSubmitted(true);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-80px" });
 
@@ -201,28 +224,56 @@ const HeroSection = () => {
           real yield backed by verifiable creator revenue — not speculation.
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* CTA — Waitlist email capture */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
+          className="mt-10 w-full max-w-md flex flex-col items-center gap-3"
         >
-          <Button
-            size="lg"
-            className="bg-gradient-hero px-8 py-6 font-display text-base font-semibold text-primary-foreground shadow-glow-pink hover:opacity-90"
-          >
-            Start Selling
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-          <div className="flex items-center rounded-lg border border-border bg-muted px-4 py-3">
-            <input
-              type="text"
-              placeholder="Search for your Creators ..."
-              className="bg-transparent font-body text-sm text-foreground placeholder:text-muted-foreground outline-none w-48 sm:w-64"
-            />
-            <Search className="ml-2 h-4 w-4 text-muted-foreground" />
-          </div>
+          {submitted ? (
+            <div className="flex items-center gap-3 rounded-xl border border-border bg-muted px-6 py-4 text-center">
+              <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-creo-teal" />
+              <p className="font-body text-sm text-foreground">
+                You&apos;re on the list! We&apos;ll be in touch soon.
+              </p>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleWaitlistSubmit}
+              className="flex w-full flex-col gap-3 sm:flex-row"
+            >
+              <div className="flex flex-1 items-center rounded-lg border border-border bg-muted px-4 py-3">
+                <Mail className="mr-2 h-4 w-4 flex-shrink-0 text-muted-foreground" />
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email..."
+                  className="bg-transparent font-body text-sm text-foreground placeholder:text-muted-foreground outline-none w-full"
+                />
+              </div>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={loading}
+                className="bg-gradient-hero px-6 py-3 font-display text-base font-semibold text-primary-foreground shadow-glow-pink hover:opacity-90 disabled:opacity-60"
+              >
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    Join Waitlist
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </form>
+          )}
+          {error && (
+            <p className="font-body text-xs text-destructive">{error}</p>
+          )}
         </motion.div>
 
         {/* Floating Characters */}

@@ -209,8 +209,7 @@ const Navbar = () => {
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
             <Button
-              variant="ghost"
-              className="font-body text-sm text-muted-foreground hover:text-foreground transition-all"
+              className="bg-amber-300 hover:bg-amber-400 font-body text-sm font-semibold text-black  px-6 shadow-[0_0_16px_rgba(251,191,36,0.4)] hover:shadow-[0_0_24px_rgba(251,191,36,0.6)] transition-all"
               onClick={() => setWaitlistOpen(true)}
             >
               Join Waitlist
@@ -309,8 +308,7 @@ const Navbar = () => {
                     </Link>
                   ) : (
                     <Button
-                      variant="ghost"
-                      className="justify-start font-body text-sm text-muted-foreground"
+                      className="w-full bg-amber-400 hover:bg-amber-500 font-body text-sm font-semibold text-black shadow-[0_0_16px_rgba(251,191,36,0.4)] transition-all"
                       onClick={() => {
                         setMobileOpen(false);
                         setWaitlistOpen(true);
