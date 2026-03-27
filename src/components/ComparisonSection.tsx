@@ -130,8 +130,8 @@ const MiniChart = ({
         initial={{ height: 0 }}
         animate={inView ? { height: `${(v / max) * 100}%` } : { height: 0 }}
         transition={{
-          delay: baseDelay + i * 0.12,
-          duration: 0.55,
+          delay: baseDelay + i * 0.18,
+          duration: 0.7,
           ease: [0.16, 1, 0.3, 1],
         }}
       />
@@ -155,14 +155,14 @@ const CreatorCard = ({
     initial: { opacity: 0, x: -20 },
     animate: inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 },
     transition: {
-      delay: cardDelay + step * 0.1,
-      duration: 0,
+      delay: cardDelay + step * 0.3,
+      duration: 0.7,
       ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
     },
   });
 
   // Stats start after chart label + bars finish
-  const statsDelay = cardDelay + 0.55;
+  const statsDelay = cardDelay + 1.0;
 
   return (
     <div
@@ -190,7 +190,7 @@ const CreatorCard = ({
           max={c.ringMax}
           color={c.barColor}
           inView={inView}
-          baseDelay={cardDelay + 0.3}
+          baseDelay={cardDelay + 0.5}
         />
       </motion.div>
 
@@ -207,8 +207,8 @@ const CreatorCard = ({
             initial={{ opacity: 0, x: -16 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
             transition={{
-              delay: statsDelay + si * 0.14,
-              duration: 0.6,
+              delay: statsDelay + si * 0.2,
+              duration: 0.7,
               ease: [0.16, 1, 0.3, 1],
             }}
             className="rounded-lg bg-background/60 border border-border px-3 py-2"
@@ -332,9 +332,8 @@ const ComparisonSection = () => {
 
             {/* Two creator cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {creators.map((c, i) => (
-                // Creator A finishes ~1.8s; 2.5s pause → Creator B starts at 4.3s
-                <CreatorCard key={c.name} c={c} cardDelay={i === 0 ? 0 : 4.3} />
+              {creators.map((c) => (
+                <CreatorCard key={c.name} c={c} cardDelay={0} />
               ))}
             </div>
 

@@ -62,11 +62,11 @@ const colorMap: Record<string, { bg: string; text: string }> = {
   "creo-yellow": { bg: "bg-creo-yellow/10", text: "text-creo-yellow" },
 };
 
-// Delays (seconds) — creators first, then investors
+// Delays (seconds) — creators and investors animate in parallel
 const CREATOR_BADGE_DELAY = 0.2;
 const CREATOR_STEP_BASE = 0.55; // step i = base + i * 0.4
-const INVESTOR_BADGE_DELAY = 2.0;
-const INVESTOR_STEP_BASE = 2.35; // step i = base + i * 0.4
+const INVESTOR_BADGE_DELAY = 0.2;
+const INVESTOR_STEP_BASE = 0.55; // step i = base + i * 0.4
 const STEP_STAGGER = 0.4;
 
 interface StepCardProps {
