@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Wallet, Mail, Loader2, CheckCircle2, Sun, Moon } from "lucide-react";
+import {
+  Menu,
+  X,
+  Wallet,
+  Mail,
+  Loader2,
+  CheckCircle2,
+  Sun,
+  Moon,
+} from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,9 +21,9 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Link, useLocation } from "react-router-dom";
+import { joinWaitlist } from "@/services/waitlist";
 import { useAppKit } from "@reown/appkit/react";
 import { useAccount } from "wagmi";
-
 
 const navLinks = [
   { label: "Marketplace", href: "/marketplace" },
@@ -59,7 +68,7 @@ const Navbar = () => {
                   const n = [...prev];
                   n[li] =
                     SCRAMBLE_CHARS[
-                    Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+                      Math.floor(Math.random() * SCRAMBLE_CHARS.length)
                     ];
                   return n;
                 });
@@ -107,12 +116,7 @@ const Navbar = () => {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!res.ok) throw new Error("Something went wrong. Please try again.");
+      await joinWaitlist(email);
       setSubmitted(true);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -131,8 +135,6 @@ const Navbar = () => {
       }, 300);
     }
   };
-
-
 
   return (
     <>
@@ -189,10 +191,11 @@ const Navbar = () => {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className={`font-body text-base font-medium transition-all hover:text-foreground hover:translate-y-[-1px] ${location.pathname === link.href
-                    ? "text-foreground"
-                    : "text-muted-foreground"
-                    }`}
+                  className={`font-body text-base font-medium transition-all hover:text-foreground hover:translate-y-[-1px] ${
+                    location.pathname === link.href
+                      ? "text-foreground"
+                      : "text-muted-foreground"
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -206,16 +209,20 @@ const Navbar = () => {
               aria-label="Toggle theme"
               className="h-9 w-9 rounded-full border border-creo-pink/30 bg-creo-pink/5 flex items-center justify-center text-creo-pink hover:bg-creo-pink/15 transition-colors"
             >
-              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {theme === "dark" ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
             </button>
             <Button
-              className="bg-amber-300 hover:bg-amber-400 font-body text-sm font-semibold text-black  px-6 shadow-[0_0_16px_rgba(251,191,36,0.4)] hover:shadow-[0_0_24px_rgba(251,191,36,0.6)] transition-all"
+              className="bg-gradient-hero font-body text-sm font-semibold text-primary-foreground hover:opacity-90 flex items-center gap-2 h-10 px-5"
               onClick={() => setWaitlistOpen(true)}
             >
               Join Waitlist
             </Button>
 
-            {isConnected ? (
+            {/* {isConnected ? (
               <div className="flex items-center gap-3">
                 <Button
                   onClick={() => open()}
@@ -238,10 +245,8 @@ const Navbar = () => {
                 <Wallet size={16} />
                 Connect Wallet
               </Button>
-            )}
+            )} */}
           </div>
-
-
 
           <button
             className="md:hidden text-foreground"
@@ -287,7 +292,11 @@ const Navbar = () => {
                     aria-label="Toggle theme"
                     className="flex items-center gap-3 rounded-lg px-3 py-2.5 font-body text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                   >
-                    {theme === "dark" ? <Sun className="h-4 w-4 text-creo-pink" /> : <Moon className="h-4 w-4 text-creo-pink" />}
+                    {theme === "dark" ? (
+                      <Sun className="h-4 w-4 text-creo-pink" />
+                    ) : (
+                      <Moon className="h-4 w-4 text-creo-pink" />
+                    )}
                     {theme === "dark" ? "Light Mode" : "Dark Mode"}
                   </button>
                   <Button
@@ -302,7 +311,10 @@ const Navbar = () => {
                   </Button>
                   {isConnected ? (
                     <Link to="/creator/dashboard">
-                      <Button className="w-full font-body text-sm font-semibold border-border hover:bg-accent text-foreground" variant="outline">
+                      <Button
+                        className="w-full font-body text-sm font-semibold border-border hover:bg-accent text-foreground"
+                        variant="outline"
+                      >
                         Start Creating
                       </Button>
                     </Link>
@@ -318,8 +330,6 @@ const Navbar = () => {
                     </Button>
                   )}
                 </div>
-
-
               </div>
             </motion.div>
           )}
@@ -335,11 +345,13 @@ const Navbar = () => {
               </div>
               <DialogHeader>
                 <DialogTitle className="font-display text-xl font-bold">
-                  You&apos;re on the list!
+                  Welcome! You&apos;re on the waitlist!
                 </DialogTitle>
                 <DialogDescription className="font-body text-muted-foreground">
-                  Thanks for joining the KREO waitlist. We&apos;ll be in touch
-                  soon.
+                  Thanks for joining the KREO waitlist! We&apos;ll keep you
+                  updated on our launch and send you exclusive early access
+                  opportunities. In the meantime, feel free to explore our
+                  website and follow us on social media for the latest news.
                 </DialogDescription>
               </DialogHeader>
             </div>
@@ -399,9 +411,7 @@ const Navbar = () => {
         </DialogContent>
       </Dialog>
     </>
-
   );
 };
 
 export default Navbar;
-

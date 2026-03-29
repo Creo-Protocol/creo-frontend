@@ -2,6 +2,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Loader2, CheckCircle2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { joinWaitlist } from "@/services/waitlist";
 import heroCreator from "@/assets/hero-creator.png";
 import heroInvestor from "@/assets/hero-investor.png";
 
@@ -97,12 +98,7 @@ const HeroSection = () => {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!res.ok) throw new Error("Something went wrong. Please try again.");
+      await joinWaitlist(email);
       setSubmitted(true);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
